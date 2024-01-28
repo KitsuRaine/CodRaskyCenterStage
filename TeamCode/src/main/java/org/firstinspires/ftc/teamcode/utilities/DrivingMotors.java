@@ -10,10 +10,10 @@ public class DrivingMotors {
 
     public DrivingMotors(HardwareMap hardwareMap) {
 
-        leftRear = new Motor(hardwareMap, "leftRear", false, true, false);
-        leftFront = new Motor(hardwareMap, "leftEncoder", true, true, false);
-        rightFront = new Motor(hardwareMap, "rightFront", false, true, false);
-        rightRear = new Motor(hardwareMap, "frontEncoder", true, true, false);
+        leftRear = new Motor(hardwareMap, "stangaSpate", false, true, false);
+        leftFront = new Motor(hardwareMap, "stangaFataE", true, true, false);
+        rightFront = new Motor(hardwareMap, "dreaptaFata", false, true, false);
+        rightRear = new Motor(hardwareMap, "dreaptaSpateE", true, true, false);
     }
 
     private double abs(double x) {

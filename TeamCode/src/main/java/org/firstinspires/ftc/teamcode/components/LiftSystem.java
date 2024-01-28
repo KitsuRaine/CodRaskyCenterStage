@@ -59,7 +59,7 @@ public class LiftSystem {
 
     public void servoInitPos() {
 
-        flip.setPosition(0.0375);
+        flip.setPosition(0.0385);
     }
 
     public void servoActivePos() {
@@ -132,12 +132,12 @@ public class LiftSystem {
 
     public void InitTheFlipper () {
 
-        servoActivePos();
+        servoInitPos();
     }
 
     public void FlipTheFlipper () {
 
-        servoInitPos();
+        servoActivePos();
     }
 
     public void run(double power) {
@@ -147,10 +147,6 @@ public class LiftSystem {
             microInitPos();
             servoInitPos();
         }
-        else if (getPosition() >= lowLevel)
-            servoActivePos();
-        else
-            servoInitPos();
 
         if (Math.abs(power) >= holdK)
             manualMode = true;

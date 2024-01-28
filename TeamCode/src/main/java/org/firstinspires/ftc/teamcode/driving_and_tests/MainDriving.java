@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.components.Collector;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.teamcode.components.LiftSystem;
-import org.firstinspires.ftc.teamcode.utilities.Button;
+import org.firstinspires.ftc.teamcode.utilities.Buton;
 import org.firstinspires.ftc.teamcode.utilities.DrivingMotors;
 import org.firstinspires.ftc.teamcode.utilities.DrivingMotorsCentric;
 import org.firstinspires.ftc.teamcode.utilities.Gyroscope;
@@ -30,8 +30,8 @@ public class MainDriving extends LinearOpMode {
     Motor motor_ridicare;
     Servo servo_agatare;
     Servo avion;
-    Button up, down;
-    Button forward_servo, backward_servo, zeroAngle;
+    Buton up, down;
+    Buton forward_servo, backward_servo, zeroAngle;
     boolean toZeroAngle = false;
     boolean roadRunnerInited = false;
 
@@ -41,6 +41,10 @@ public class MainDriving extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
 
+        int usedStack=0;
+        int usedFlip=0;
+        boolean lastIterationStack=false;
+        boolean lastIterationFlip=false;
         drivingGamepad = gamepad1;
         utilityGamepad = gamepad2;
         endgameRumble = new Gamepad.RumbleEffect.Builder()
@@ -65,12 +69,13 @@ public class MainDriving extends LinearOpMode {
         liftSystem.microInitPos();
         liftSystem.servoInitPos();
         collector.runModeOf();
+        collector.closeStackServo();
 
-        zeroAngle = new Button();
-        up = new Button();
-        down = new Button();
-        forward_servo = new Button();
-        backward_servo = new Button();
+        zeroAngle = new Buton();
+        up = new Buton();
+        down = new Buton();
+        forward_servo = new Buton();
+        backward_servo = new Buton();
         servo_agatare.setPosition(0);
         avion.setPosition(0);
 
@@ -126,13 +131,34 @@ public class MainDriving extends LinearOpMode {
                 liftSystem.toGround();
             if (gamepad2.y)
                 liftSystem.toMid();
-            if (gamepad2.a)
-                liftSystem.toLow();
 
             if(gamepad2.left_bumper)
             {
                 liftSystem.UnderGround();
             }
+
+            if(gamepad2.right_bumper && gamepad2.right_bumper != lastIterationStack)
+            {
+                usedStack++;
+
+                if(usedStack%2==0)
+                    collector.closeStackServo();
+                else
+                    collector.openStackServo();
+            }
+            lastIterationStack=gamepad2.right_bumper;
+
+            if(gamepad2.a && gamepad2.a != lastIterationFlip)
+            {
+                usedFlip++;
+
+                if(usedFlip%2==0)
+                    liftSystem.InitTheFlipper();
+                else
+                    liftSystem.FlipTheFlipper();
+
+            }
+            lastIterationFlip=gamepad2.a;
 
             if (gamepad2.right_trigger >= 0.15)
                 liftSystem.run(gamepad2.right_trigger);
