@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.autonomii_noi;
+package org.firstinspires.ftc.teamcode.autonomii_regionala;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -12,10 +12,10 @@ public class BlueCC extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
 
-        leftRear = new Motor(hardwareMap, "leftRear", false, true, false);
-        leftFront = new Motor(hardwareMap, "leftEncoder", true, true, false);
-        rightFront = new Motor(hardwareMap, "rightFront", false, true, false);
-        rightRear = new Motor(hardwareMap, "frontEncoder", true, true, false);
+        leftRear = new Motor(hardwareMap, "stangaSpate", false, true, false);
+        leftFront = new Motor(hardwareMap, "stangaFataE", true, true, false);
+        rightFront = new Motor(hardwareMap, "dreaptaFata", false, true, false);
+        rightRear = new Motor(hardwareMap, "dreaptaSpateE", true, true, false);
 
         telemetry.addData("Ready!", "");
         telemetry.update();

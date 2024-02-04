@@ -17,6 +17,7 @@ public class LiftSystem {
     private int resetTolerance = 0;
     boolean manualMode;
     private Servo flip;
+    private Servo angleServo;
     private Servo microservo;
 
     public LiftSystem(HardwareMap hardwareMap) {
@@ -26,6 +27,9 @@ public class LiftSystem {
 
         flip = new Servo(hardwareMap, "brat");
         flip.setPowerRange(500, 2500);
+
+        angleServo = new Servo(hardwareMap, "inclinare");
+        angleServo.setPowerRange(500, 2500);
 
         motor1 = new Motor(hardwareMap, "liftMotor", false, true, false);
         motor2 = new Motor(hardwareMap, "liftMotor2", true, true, false);
@@ -40,6 +44,7 @@ public class LiftSystem {
 
         microInitPos();
         servoInitPos();
+        angleInitPos();
     }
 
     public void microInitPos() {
@@ -55,6 +60,14 @@ public class LiftSystem {
     public void microSecodPos() {
 
         microservo.setPosition(0.6);
+    }
+
+    public void angleInitPos() {
+        angleServo.setPosition(0.360);
+    }
+
+    public void angleActivePos() {
+        angleServo.setPosition(0.18);
     }
 
     public void servoInitPos() {

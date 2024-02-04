@@ -68,7 +68,7 @@ public class MainDriving extends LinearOpMode {
 
         liftSystem.microInitPos();
         liftSystem.servoInitPos();
-        collector.runModeOf();
+        collector.runModeOff();
         collector.closeStackServo();
 
         zeroAngle = new Buton();
@@ -123,7 +123,18 @@ public class MainDriving extends LinearOpMode {
             else if (gamepad1.left_trigger >= 0.2)
                 collector.runModeThrow();
             else
-                collector.runModeOf();
+                collector.runModeOff();
+
+            if(gamepad2.right_bumper && gamepad2.right_bumper != lastIterationStack)
+            {
+                usedStack++;
+
+                if(usedStack%2==0)
+                    collector.closeStackServo();
+                else
+                    collector.openStackServo();
+            }
+            lastIterationStack=gamepad2.right_bumper;
 
             // ==================== LIFT ====================
 
@@ -137,26 +148,18 @@ public class MainDriving extends LinearOpMode {
                 liftSystem.UnderGround();
             }
 
-            if(gamepad2.right_bumper && gamepad2.right_bumper != lastIterationStack)
-            {
-                usedStack++;
-
-                if(usedStack%2==0)
-                    collector.closeStackServo();
-                else
-                    collector.openStackServo();
-            }
-            lastIterationStack=gamepad2.right_bumper;
-
             if(gamepad2.a && gamepad2.a != lastIterationFlip)
             {
                 usedFlip++;
 
-                if(usedFlip%2==0)
+                if(usedFlip%2==0) {
                     liftSystem.InitTheFlipper();
-                else
+                    liftSystem.angleInitPos();
+                }
+                else {
                     liftSystem.FlipTheFlipper();
-
+                    liftSystem.angleActivePos();
+                }
             }
             lastIterationFlip=gamepad2.a;
 

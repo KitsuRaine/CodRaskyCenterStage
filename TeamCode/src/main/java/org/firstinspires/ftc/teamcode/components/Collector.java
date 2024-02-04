@@ -29,7 +29,7 @@ public class Collector {
         motor.setPower(0.8);
     }
 
-    public void runModeOf() {
+    public void runModeOff() {
 
         motor.setPower(0);
     }
@@ -41,13 +41,13 @@ public class Collector {
 
     public void closeStackServo() {
         //Modifica servo1
-        servo1.setPosition(0);
+        servo1.setPosition(0.55);
         servo2.setPosition(0);
     }
 
     public void openStackServo() {
         //Modifica servo1
-        servo1.setPosition(-0.45);
+        servo1.setPosition(0);
         servo2.setPosition(0.45);
     }
 }
