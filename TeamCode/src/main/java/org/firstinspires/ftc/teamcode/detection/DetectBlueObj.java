@@ -12,13 +12,16 @@ public class DetectBlueObj extends OpenCvPipeline {
     Mat mat = new Mat();
     private int tip_autonomie;
 
+    // 16 = o unitate
+    private static int xtol=32;
+    private static int ytol=32;
     static final Rect zona_stanga = new Rect(
-            new Point(32, 240-64),
-            new Point(128, 240-160));
+            new Point(32+xtol, 240-64+ytol),
+            new Point(128+xtol, 240-160+ytol));
 
     static final Rect zona_mijloc = new Rect(
-            new Point(176, 240-16),
-            new Point(288, 240-112));
+            new Point(176+xtol, 240-16+ytol/2),
+            new Point(288+xtol, 240-112+ytol/2));
 
     /**static final Rect zona_dreapta = new Rect(
      new Point(190, 135),

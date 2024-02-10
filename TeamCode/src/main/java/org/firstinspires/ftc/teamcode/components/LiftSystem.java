@@ -10,9 +10,9 @@ public class LiftSystem {
     private Motor motor1, motor2;
     private int target, tolerance, reachedTarget;
     private final int groundLevel = 0;
-    private final int lowLevel = 450;
-    private final int midLevel = 650;
-    private final int highLevel = 750;
+    private final int lowLevel = 275;
+    private final int midLevel = 450;
+    private final int highLevel = 650;
     private final double holdK = 0.15;
     private int resetTolerance = 0;
     boolean manualMode;
@@ -43,18 +43,13 @@ public class LiftSystem {
         manualMode = true;
 
         microInitPos();
-        servoInitPos();
+        flipInitPos();
         angleInitPos();
     }
 
     public void microInitPos() {
 
         microservo.setPosition(0.2);
-    }
-
-    public void microFirstPos() {
-
-        microservo.setPosition(0.45);
     }
 
     public void microSecodPos() {
@@ -66,18 +61,19 @@ public class LiftSystem {
         angleServo.setPosition(0.360);
     }
 
-    public void angleActivePos() {
-        angleServo.setPosition(0.18);
+    public void angleActivePos(double height) {
+        angleServo.setPosition(0.18-(height/100));
     }
 
-    public void servoInitPos() {
+    public void flipInitPos() {
 
         flip.setPosition(0.0385);
     }
 
-    public void servoActivePos() {
+    public void flipActivePos(double height) {
         //valoare era 6
-        flip.setPosition(5);
+        ///TODO: Modificare pe cele 3 heighturi
+        flip.setPosition(0.82+(height/100));
     }
 
     public void setPower(double power) {
@@ -112,21 +108,28 @@ public class LiftSystem {
 
     public void toGround() {
 
-        target = groundLevel;
+        target = groundLevel-resetTolerance;
         manualMode = false;
         reachedTarget = -1;
     }
 
     public void toLow() {
 
-        target = lowLevel;
+        target = lowLevel-resetTolerance;
         manualMode = false;
         reachedTarget = -1;
     }
 
     public void toMid() {
 
-        target = midLevel;
+        target = midLevel-resetTolerance;
+        manualMode = false;
+        reachedTarget = -1;
+    }
+
+    public void toHigh() {
+
+        target = highLevel;
         manualMode = false;
         reachedTarget = -1;
     }
@@ -139,26 +142,14 @@ public class LiftSystem {
     }
 
     public int getReachedTarget () {
-
         return reachedTarget;
-    }
-
-    public void InitTheFlipper () {
-
-        servoInitPos();
-    }
-
-    public void FlipTheFlipper () {
-
-        servoActivePos();
     }
 
     public void run(double power) {
 
         if (target == 0 && !manualMode) {
-
             microInitPos();
-            servoInitPos();
+            flipInitPos();
         }
 
         if (Math.abs(power) >= holdK)

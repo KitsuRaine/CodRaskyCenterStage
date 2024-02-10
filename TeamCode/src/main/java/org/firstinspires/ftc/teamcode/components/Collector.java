@@ -17,11 +17,11 @@ public class Collector {
 
         servo1 = new Servo(hardwareMap, "servostackleft");
         servo1.setPowerRange(500,2500);
-        servo1.setPosition(0);
 
         servo2 = new Servo(hardwareMap, "servostackright");
         servo2.setPowerRange(500,2500);
-        servo2.setPosition(0);
+
+        closeStackServo();
     }
 
     public void runModeCollect() {

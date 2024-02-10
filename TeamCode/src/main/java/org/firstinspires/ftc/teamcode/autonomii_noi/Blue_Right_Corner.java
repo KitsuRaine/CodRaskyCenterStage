@@ -17,7 +17,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name = "Blue_Right_Corner", group = "main")
+@Autonomous(name = "zBlue_Right_Corner", group = "main")
 public class Blue_Right_Corner extends LinearOpMode {
 
     private RoadRunner roadRunner;

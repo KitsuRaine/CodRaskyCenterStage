@@ -43,8 +43,11 @@ public class MainDriving extends LinearOpMode {
 
         int usedStack=0;
         int usedFlip=0;
+        int dropped=0;
         boolean lastIterationStack=false;
         boolean lastIterationFlip=false;
+        boolean lastIterationDropPixel=false;
+
         drivingGamepad = gamepad1;
         utilityGamepad = gamepad2;
         endgameRumble = new Gamepad.RumbleEffect.Builder()
@@ -67,7 +70,7 @@ public class MainDriving extends LinearOpMode {
         avion.setPowerRange(500, 2500);
 
         liftSystem.microInitPos();
-        liftSystem.servoInitPos();
+        liftSystem.flipInitPos();
         collector.runModeOff();
         collector.closeStackServo();
 
@@ -138,10 +141,12 @@ public class MainDriving extends LinearOpMode {
 
             // ==================== LIFT ====================
 
-            if (gamepad2.b)
+            if (gamepad2.b){
+                liftSystem.flipInitPos();
+                liftSystem.angleInitPos();
+                sleep(400);
                 liftSystem.toGround();
-            if (gamepad2.y)
-                liftSystem.toMid();
+            }
 
             if(gamepad2.left_bumper)
             {
@@ -153,12 +158,12 @@ public class MainDriving extends LinearOpMode {
                 usedFlip++;
 
                 if(usedFlip%2==0) {
-                    liftSystem.InitTheFlipper();
+                    liftSystem.flipInitPos();
                     liftSystem.angleInitPos();
                 }
                 else {
-                    liftSystem.FlipTheFlipper();
-                    liftSystem.angleActivePos();
+                    liftSystem.flipActivePos(0);
+                    liftSystem.angleActivePos(0);
                 }
             }
             lastIterationFlip=gamepad2.a;
@@ -170,12 +175,33 @@ public class MainDriving extends LinearOpMode {
             else
                 liftSystem.run(0);
 
-            if (gamepad2.dpad_down)
-                liftSystem.microFirstPos();
-            else if (gamepad2.dpad_up)
-                liftSystem.microSecodPos();
-            else if (gamepad2.dpad_right)
-                liftSystem.microInitPos();
+            if (gamepad2.dpad_down) {
+                liftSystem.toMid();
+                usedFlip++;
+                liftSystem.flipActivePos(5);
+                liftSystem.angleActivePos(6.5);
+                liftSystem.toLow();
+            }
+            else if (gamepad2.dpad_left) {
+                liftSystem.toMid();
+                usedFlip++;
+                liftSystem.flipActivePos(2.5);
+                liftSystem.angleActivePos(3.25);
+            }
+            else if (gamepad2.dpad_up) {
+                liftSystem.toHigh();
+                usedFlip++;
+                liftSystem.flipActivePos(0);
+                liftSystem.angleActivePos(0);
+            }
+            else if (gamepad2.dpad_right && gamepad2.dpad_right != lastIterationDropPixel) {
+                ++ dropped;
+                if(dropped % 2 == 0)
+                    liftSystem.microInitPos();
+                else
+                    liftSystem.microSecodPos();
+            }
+            lastIterationDropPixel=gamepad2.dpad_right;
 
             if (gamepad1.y /*&& motor_ridicare.getPosition()<=*/)
                 motor_ridicare.setPower(1);
