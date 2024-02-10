@@ -11,7 +11,7 @@ public class LiftSystem {
     private int target, tolerance, reachedTarget;
     private final int groundLevel = 0;
     private final int lowLevel = 275;
-    private final int midLevel = 450;
+    private final int midLevel = 425;
     private final int highLevel = 650;
     private final double holdK = 0.15;
     private int resetTolerance = 0;
@@ -67,7 +67,7 @@ public class LiftSystem {
 
     public void flipInitPos() {
 
-        flip.setPosition(0.0385);
+        flip.setPosition(0.26);
     }
 
     public void flipActivePos(double height) {
@@ -102,7 +102,6 @@ public class LiftSystem {
         if(resetTolerance < 600)
             resetTolerance+= 10;
         manualMode = false;
-        reachedTarget = -1;
         
     }
 
@@ -110,35 +109,31 @@ public class LiftSystem {
 
         target = groundLevel-resetTolerance;
         manualMode = false;
-        reachedTarget = -1;
+        reachedTarget=-1;
     }
 
     public void toLow() {
 
         target = lowLevel-resetTolerance;
         manualMode = false;
-        reachedTarget = -1;
     }
 
     public void toMid() {
 
         target = midLevel-resetTolerance;
         manualMode = false;
-        reachedTarget = -1;
     }
 
     public void toHigh() {
 
         target = highLevel;
         manualMode = false;
-        reachedTarget = -1;
     }
 
     public void setTarget(int target) {
 
         this.target = target;
         manualMode = false;
-        reachedTarget = -1;
     }
 
     public int getReachedTarget () {
