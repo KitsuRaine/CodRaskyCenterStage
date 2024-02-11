@@ -141,7 +141,7 @@ public class testBlueClose extends LinearOpMode {
             roadRunner.run();
         }
 
-        liftSystem.microSecodPos();
+        liftSystem.microSecondPos();
         sleep(1500);
         liftSystem.toGround();
 

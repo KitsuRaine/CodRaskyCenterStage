@@ -11,17 +11,23 @@ import org.openftc.easyopencv.OpenCvPipeline;
 public class DetectBlueObj extends OpenCvPipeline {
     Mat mat = new Mat();
     private int tip_autonomie;
+    /*
+     * tipul de autonomie e urmatoru:
+     * 0 - stanga
+     * 1 - mijloc
+     * 2 - dreapta
+     */
 
     // 16 = o unitate
     private static int xtol=32;
     private static int ytol=32;
     static final Rect zona_stanga = new Rect(
-            new Point(32+xtol, 240-64+ytol),
-            new Point(128+xtol, 240-160+ytol));
+            new Point(32 + xtol, 240-64 + ytol),
+            new Point(128 + xtol, 240-160 + ytol));
 
     static final Rect zona_mijloc = new Rect(
-            new Point(176+xtol, 240-16+ytol/2),
-            new Point(288+xtol, 240-112+ytol/2));
+            new Point(176 + xtol, 240-16 + ytol),
+            new Point(288 + xtol, 240-112 + ytol));
 
     /**static final Rect zona_dreapta = new Rect(
      new Point(190, 135),

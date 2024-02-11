@@ -32,6 +32,7 @@ public class RoadRunner {
     private final double degree = (Geometry.pi / 180);
     private final double angleCorrectionDelta = degree * 5;
     private double precision;
+    private boolean precisionMode = true;
 
     /*
         x, y - target point
@@ -130,6 +131,9 @@ public class RoadRunner {
 
         this.precision = precision;
     }
+    public void setPrecisionMode(boolean precision) {
+        precisionMode = precision;
+    }
 
     public double getDistanceFromDestination() {
 
@@ -162,6 +166,10 @@ public class RoadRunner {
 
             move.first = Math.cos(m) * auxPower;
             move.second = Math.sin(m) * auxPower;
+            if (!precisionMode) {
+                move.first *= 1.5;
+                move.second *= 1.5;
+            }
 
             if (Geometry.distance(positionSystem.getPosition().first, positionSystem.getPosition().second, x, y) <= 30)
                 under30cm = true;

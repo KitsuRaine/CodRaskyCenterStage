@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.autonomii_noi;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -17,7 +18,9 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name = "zBlue_Right_Middle", group = "main")
+@Disabled
+
+@Autonomous(name = "Blue_Right_Middle", group = "main")
 public class Blue_Right_Middle extends LinearOpMode {
 
     private RoadRunner roadRunner;
@@ -157,7 +160,7 @@ public class Blue_Right_Middle extends LinearOpMode {
         }
 
         sleep(1500);
-        liftSystem.microSecodPos();
+        liftSystem.microSecondPos();
         sleep(1500);
         liftSystem.toGround();
 

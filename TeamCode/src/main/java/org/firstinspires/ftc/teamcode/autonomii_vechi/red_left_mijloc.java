@@ -67,7 +67,7 @@ public class red_left_mijloc extends LinearOpMode {
 
         roadRunner.setPrecision(1);
 
-        liftSystem.microSecodPos();
+        liftSystem.microSecondPos();
         sleep(1500);
         liftSystem.toGround();
 

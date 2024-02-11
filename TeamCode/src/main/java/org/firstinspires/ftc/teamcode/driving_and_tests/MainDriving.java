@@ -214,7 +214,7 @@ public class MainDriving extends LinearOpMode {
                 if(dropped % 2 == 0)
                     liftSystem.microInitPos();
                 else
-                    liftSystem.microSecodPos();
+                    liftSystem.microSecondPos();
             }
             lastIterationDropPixel=gamepad2.dpad_right;
 

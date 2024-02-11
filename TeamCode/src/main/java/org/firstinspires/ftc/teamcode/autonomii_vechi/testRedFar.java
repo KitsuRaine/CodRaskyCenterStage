@@ -174,7 +174,7 @@ public class testRedFar extends LinearOpMode {
         }
 
         sleep(800);
-        liftSystem.microSecodPos();
+        liftSystem.microSecondPos();
         sleep(1500);
         liftSystem.toGround();
 

@@ -24,6 +24,9 @@ public class DrivingMotors {
         return x < y ? y : x;
     }
 
+    // x - power for horizontal
+    // -y - power for vertical
+    // r - rotation to remove from power
     public void run(double x, double y, double r) {
 
         if (abs(x) <= 0.1)

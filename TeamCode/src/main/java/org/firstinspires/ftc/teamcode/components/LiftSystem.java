@@ -19,6 +19,7 @@ public class LiftSystem {
     private Servo flip;
     private Servo angleServo;
     private Servo microservo;
+    public boolean isRunning = false;
 
     public LiftSystem(HardwareMap hardwareMap) {
 
@@ -52,7 +53,12 @@ public class LiftSystem {
         microservo.setPosition(0.2);
     }
 
-    public void microSecodPos() {
+    public void microFirstPos() {
+
+        microservo.setPosition(0.45);
+    }
+
+    public void microSecondPos() {
 
         microservo.setPosition(0.6);
     }
@@ -62,16 +68,14 @@ public class LiftSystem {
     }
 
     public void angleActivePos(double height) {
-        angleServo.setPosition(0.18-(height/100));
+        angleServo.setPosition(0.18 - (height/100));
     }
 
     public void flipInitPos() {
-
-        flip.setPosition(0.26);
+        flip.setPosition(26);
     }
 
     public void flipActivePos(double height) {
-        //valoare era 6
         ///TODO: Modificare pe cele 3 heighturi
         flip.setPosition(0.82+(height/100));
     }
@@ -96,34 +100,38 @@ public class LiftSystem {
         resetTolerance-=10;
     }
 
+
+    //* In some cases, the robot may initialize while the lift is still
+    //* higher up, whether it be it may have been stuck or something else happened
+    //* We need to set its position back to what it should've been, yet we dont know how low
+    //* we're supposed to go
+    //* Therefore, this function gets called to force the lift back into position,
     public void UnderGround() {
 
         target = groundLevel - resetTolerance;
         if(resetTolerance < 600)
             resetTolerance+= 10;
         manualMode = false;
-        
     }
 
     public void toGround() {
 
-        target = groundLevel-resetTolerance;
+        target = groundLevel - resetTolerance;
         manualMode = false;
-        reachedTarget=-1;
+        reachedTarget = -1;
     }
 
     public void toLow() {
 
-        target = lowLevel-resetTolerance;
+        target = lowLevel - resetTolerance;
         manualMode = false;
     }
 
     public void toMid() {
 
-        target = midLevel-resetTolerance;
+        target = midLevel - resetTolerance;
         manualMode = false;
     }
-
     public void toHigh() {
 
         target = highLevel;
@@ -137,12 +145,20 @@ public class LiftSystem {
     }
 
     public int getReachedTarget () {
+
         return reachedTarget;
     }
+    public void runUntilDone() {
+        while (isRunning) run();
+    }
 
+    public void run() {
+        run(0);
+    }
     public void run(double power) {
 
         if (target == 0 && !manualMode) {
+
             microInitPos();
             flipInitPos();
         }
@@ -172,8 +188,11 @@ public class LiftSystem {
         }
         else {
 
-            if (reachedTarget == target)
+            if (reachedTarget == target) {
+                isRunning = false;
                 return;
+            }
+            isRunning = true;
 
             if (Math.abs(motor1.getPosition() - target) >= tolerance || (motor1.getPosition() <= 15 && motor1.getPosition() >= 0)) {
 

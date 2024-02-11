@@ -11,6 +11,12 @@ import org.openftc.easyopencv.OpenCvPipeline;
 public class DetectRedObj extends OpenCvPipeline {
     Mat mat = new Mat();
     private int tip_autonomie;
+    /*
+     * tipul de autonomie e urmatoru:
+     * 0 - stanga
+     * 1 - mijloc
+     * 2 - dreapta
+     */
 
     static final Rect zona_stanga = new Rect(
             new Point(32, 240-64),
@@ -55,13 +61,15 @@ public class DetectRedObj extends OpenCvPipeline {
         //boolean elementRight = val_dreapta > procentObiectPeZona;
 
         if (elementLeft) {
+            //midle
             tip_autonomie = 1;
         } else if (elementMiddle) {
+            //dreapta
             tip_autonomie = 2;
         /**} else if (elementRight) {
             tip_autonomie = 2;*/
         } else
-            tip_autonomie = 0;
+            tip_autonomie = 0; //stan
 
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_GRAY2RGB);
 
