@@ -1,28 +1,27 @@
-# ignore this repo
+# Rasky - Center Stage season Java Project
 
-unless you're just trying to look through bad code, and laugh through ~~my~~ **OUR** shitty commits,
-i don't think you have a reason to be here
+After trying to use our Road Runner
 
 (unless you're one of us lol)
 
-project structure (if ure dumb) (starts from `/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/`):
-- `autonomii_noi` - autonomii facute inainte de regionala
-- `autonomii_regionala` - autonomii facute _PENTRU_ regionala (si posibil pt viitor)
-- `autonomii_vechi` - mostly teste, dar si cateva autonomii de care nu mai avem nevoie (dar nu le stergem)
-- `components` - clase pentru componentele (in mare) a robotului, precum `LiftSystem`
-- `detection` - orice legat de detectie si de camera
+project structure (starts from `/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/`):
+- `autonomii_noi` - deprecated autonomies, before first robot rework, before Regionals
+- `autonomii_regionala` - autonomies created FOR the regionals
+- `autonomii_vechi` - deprecated autonomies, used for learning purposes
+- `components` - component classes, as `Collector();` and `LiftSystem();`
+- `detection` - color or qr code detection
 - `driving_and_tests` - exactly as its name implies
-- `RoadRunner` - official RoadRunner, taken from the quickstart as its recommended in the guide
+- `RoadRunner` - official RoadRunner
 - `utilities` - general utilities, like `EasyDrive` or `Geometry` (for pi) etc.
 
 # YOU ARE NOT REQUIRED TO USE `BasicAutonomy` OR `EasyDrive`
 
-You can still use roadrunner or anything else the usual way. No one _requires_ you to use those classes lol
+Here's the Dashboard for PIDF tuning
 
 [open local dash](http://192.168.43.1:8080/dash)
 
 ---
-**TODO:** configure official roadrunner
+**TODO:** tune official road runner
 
 **TODO:** configure `./RoadRunner/drive/TwoWheelTrackingLocalizer.java` to use the correct data 
 (TPR, WR, GR, PaX, PaY, PeX, PeY)
@@ -32,7 +31,7 @@ You can still use roadrunner or anything else the usual way. No one _requires_ y
 **TODO:** [more tuning](https://learnroadrunner.com/feedforward-tuning.html#tuning)
 
 **TODO:** you've already guessed it! 
-[more tuning](https://learnroadrunner.com/straight-test.html#tuning-lateral-multiplier-dead-wheels)
+[even more tuning](https://learnroadrunner.com/straight-test.html#tuning-lateral-multiplier-dead-wheels)
 
 
-**TODO:** migrate to the official roadrunner instead of iosifs one
+**TODO:** migrate autonomies to the official roadrunner instead of iosif's one
