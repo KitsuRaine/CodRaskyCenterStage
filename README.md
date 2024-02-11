@@ -1,9 +1,5 @@
 # Rasky - Center Stage season Java Project
 
-After trying to use our Road Runner
-
-(unless you're one of us lol)
-
 project structure (starts from `/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/`):
 - `autonomii_noi` - deprecated autonomies, before first robot rework, before Regionals
 - `autonomii_regionala` - autonomies created FOR the regionals
