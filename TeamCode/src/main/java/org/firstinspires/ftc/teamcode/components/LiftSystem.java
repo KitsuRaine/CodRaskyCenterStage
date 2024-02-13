@@ -10,7 +10,7 @@ public class LiftSystem {
     private Motor motor1, motor2;
     private int target, tolerance, reachedTarget;
     private final int groundLevel = 0;
-    private final int lowLevel = 275;
+    private final int lowLevel = 300;
     private final int midLevel = 425;
     private final int highLevel = 650;
     private final double holdK = 0.15;
@@ -72,7 +72,7 @@ public class LiftSystem {
     }
 
     public void flipInitPos() {
-        flip.setPosition(26);
+        flip.setPosition(0.26);
     }
 
     public void flipActivePos(double height) {

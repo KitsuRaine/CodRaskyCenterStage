@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.components.Collector;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.teamcode.components.LiftSystem;
@@ -39,6 +40,8 @@ public class MainDriving extends LinearOpMode {
     Gamepad utilityGamepad;
     Gamepad.RumbleEffect endgameRumble;
 
+    ElapsedTime runtime = new ElapsedTime();
+
     public void runOpMode() throws InterruptedException {
 
         int usedStack=0;
@@ -50,6 +53,11 @@ public class MainDriving extends LinearOpMode {
         boolean lastIterationFarMode=false;
         boolean lastIterationFlip=false;
         boolean lastIterationDropPixel=false;
+
+        boolean lowFlip = true;
+        boolean midFlip = true;
+        boolean highFlip = true;
+        boolean farFlip = true;
 
         drivingGamepad = gamepad1;
         utilityGamepad = gamepad2;
@@ -151,47 +159,60 @@ public class MainDriving extends LinearOpMode {
                 liftSystem.run(0);
 
             if (gamepad2.y && gamepad2.y != lastIterationFarMode) {
-                if(farMode == true)
-                    farMode=false;
-                else
-                    farMode=true;
+                farMode = !farMode;
             }
             lastIterationFarMode = gamepad2.y;
 
             if (gamepad2.a && gamepad2.a != lastIterationReset) {
-                if(resetFlip == true)
-                    resetFlip=false;
-                else
-                    resetFlip=true;
+                resetFlip = !resetFlip;
+                if(resetFlip) {
+                    liftSystem.flipInitPos();
+                    liftSystem.angleInitPos();
+                }
+                else {
+
+                }
             }
             lastIterationReset = gamepad2.a;
 
 
-            if(farMode == true) {
-                if (resetFlip == true) {
-                    liftSystem.flipInitPos();
-                    liftSystem.angleInitPos();
-                } else if (liftSystem.getReachedTarget() >= 300) {
+            if (runtime.milliseconds() >= 400) {
+                if (!farFlip) {
+                    farFlip = true;
                     liftSystem.flipActivePos(10);
                     liftSystem.angleActivePos(13.5);
-                }
-            }
-            else if(farMode == false) {
-                if (resetFlip == true) {
-                    liftSystem.flipInitPos();
-                    liftSystem.angleInitPos();
-                } else if (liftSystem.getReachedTarget() >= 575) {
-                    liftSystem.flipActivePos(0);
-                    liftSystem.angleActivePos(0);
-                } else if (liftSystem.getReachedTarget() >= 400) {
-                    liftSystem.flipActivePos(2.5);
-                    liftSystem.angleActivePos(3.25);
-                } else if (liftSystem.getReachedTarget() >= 250) {
+                } else if (!lowFlip) {
+                    lowFlip = true;
                     liftSystem.flipActivePos(5);
                     liftSystem.angleActivePos(6.5);
+                } else if (!midFlip) {
+                    midFlip = true;
+                    liftSystem.flipActivePos(2.5);
+                    liftSystem.angleActivePos(3.25);
+                } else if (!highFlip) {
+                    highFlip = true;
+                    liftSystem.flipActivePos(0);
+                    liftSystem.angleActivePos(0);
                 }
             }
-            lastIterationFlip = gamepad2.a;
+
+            if (farMode) {
+                liftSystem.toMid();
+                farFlip = false;
+                runtime.reset();
+            } if (gamepad2.dpad_down) {
+                liftSystem.toLow();
+                lowFlip = false;
+                runtime.reset();
+            } if (gamepad2.dpad_left) {
+                liftSystem.toMid();
+                midFlip = false;
+                runtime.reset();
+            } if (gamepad2.dpad_up) {
+                liftSystem.toHigh();
+                highFlip = false;
+                runtime.reset();
+            }
 
             if (gamepad2.b){
                 liftSystem.toGround();
@@ -202,13 +223,6 @@ public class MainDriving extends LinearOpMode {
             }
 
 
-            if (gamepad2.dpad_down) {
-                liftSystem.toLow();
-            } else if (gamepad2.dpad_left) {
-                liftSystem.toMid();
-            } else if (gamepad2.dpad_up) {
-                liftSystem.toHigh();
-            }
             else if (gamepad2.dpad_right && gamepad2.dpad_right != lastIterationDropPixel) {
                 ++ dropped;
                 if(dropped % 2 == 0)
@@ -260,6 +274,7 @@ public class MainDriving extends LinearOpMode {
             telemetry.addData("x:", positionSystem.getPosition().first);
             telemetry.addData("y:", positionSystem.getPosition().second);
             telemetry.addData("angle:", positionSystem.getAngle());
+            telemetry.addData("flip value", (resetFlip || lowFlip || midFlip || highFlip || farFlip));
 
             telemetry.update();
         }
