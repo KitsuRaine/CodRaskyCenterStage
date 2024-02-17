@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.RoadRunner.util.Encoder;
-import org.firstinspires.ftc.teamcode.utilities.UsefulMethods;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,16 +35,16 @@ import java.util.List;
  */
 public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     public static double TICKS_PER_REV = 8192;
-    public static double WHEEL_RADIUS = UsefulMethods.cmToInch(1.9); // in
+    public static double WHEEL_RADIUS = 0.1496; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double PARALLEL_X = UsefulMethods.cmToInch(13.5); // X is the up and down direction
-    public static double PARALLEL_Y = UsefulMethods.cmToInch(5); // Y is the strafe direction
+    public static double PARALLEL_X = 1.75; // X is the up and down direction
+    public static double PARALLEL_Y = 5.45; // Y is the strafe direction
 
-    public static double PERPENDICULAR_X = UsefulMethods.cmToInch(1);
-    public static double PERPENDICULAR_Y = UsefulMethods.cmToInch(-19);
-    public static double X_MULTIPLIER = 1; // Multiplier in the X direction
-    public static double Y_MULTIPLIER = 1; // Multiplier in the Y direction
+    public static double PERPENDICULAR_X = -7.6;
+    public static double PERPENDICULAR_Y = 0.4;
+    public static double X_MULTIPLIER = 5.108; // Multiplier in the X direction
+    public static double Y_MULTIPLIER = 5; // Multiplier in the Y direction
 
 
     // Parallel/Perpendicular to the forward axis
@@ -68,7 +67,7 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
         parallelEncoder.setDirection(Encoder.Direction.REVERSE);
-        perpendicularEncoder.setDirection(Encoder.Direction.FORWARD);
+        perpendicularEncoder.setDirection(Encoder.Direction.REVERSE);
 
     }
 

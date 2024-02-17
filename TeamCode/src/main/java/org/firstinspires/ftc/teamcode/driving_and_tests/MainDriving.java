@@ -46,6 +46,7 @@ public class MainDriving extends LinearOpMode {
 
         int usedStack=0;
         int dropped=0;
+        int farvalue=0;
         boolean farMode=false;
         boolean resetFlip=false;
         boolean lastIterationStack=false;
@@ -57,7 +58,7 @@ public class MainDriving extends LinearOpMode {
         boolean lowFlip = true;
         boolean midFlip = true;
         boolean highFlip = true;
-        boolean farFlip = true;
+        boolean sentGround = false;
 
         drivingGamepad = gamepad1;
         utilityGamepad = gamepad2;
@@ -159,6 +160,11 @@ public class MainDriving extends LinearOpMode {
                 liftSystem.run(0);
 
             if (gamepad2.y && gamepad2.y != lastIterationFarMode) {
+
+                if(farvalue!=0)
+                    farvalue = 5;
+                else
+                    farvalue = 0;
                 farMode = !farMode;
             }
             lastIterationFarMode = gamepad2.y;
@@ -170,37 +176,29 @@ public class MainDriving extends LinearOpMode {
                     liftSystem.angleInitPos();
                 }
                 else {
-
+                    ///iosif pica pe scari();
                 }
             }
             lastIterationReset = gamepad2.a;
 
-
+            //TODO: Find correct values for calibration
             if (runtime.milliseconds() >= 400) {
-                if (!farFlip) {
-                    farFlip = true;
-                    liftSystem.flipActivePos(10);
-                    liftSystem.angleActivePos(13.5);
-                } else if (!lowFlip) {
+                if (!lowFlip) {
                     lowFlip = true;
-                    liftSystem.flipActivePos(5);
-                    liftSystem.angleActivePos(6.5);
+                    liftSystem.flipActivePos(5 + (farvalue * 1));
+                    liftSystem.angleActivePos(6.5 + (farvalue * 1));
                 } else if (!midFlip) {
                     midFlip = true;
-                    liftSystem.flipActivePos(2.5);
-                    liftSystem.angleActivePos(3.25);
+                    liftSystem.flipActivePos(2.5 + (farvalue * 1));
+                    liftSystem.angleActivePos(3.25 + (farvalue * 1));
                 } else if (!highFlip) {
                     highFlip = true;
-                    liftSystem.flipActivePos(0);
-                    liftSystem.angleActivePos(0);
+                    liftSystem.flipActivePos(0 + (farvalue * 1));
+                    liftSystem.angleActivePos(0 + (farvalue * 1));
                 }
             }
 
-            if (farMode) {
-                liftSystem.toMid();
-                farFlip = false;
-                runtime.reset();
-            } if (gamepad2.dpad_down) {
+            if (gamepad2.dpad_down) {
                 liftSystem.toLow();
                 lowFlip = false;
                 runtime.reset();
@@ -215,8 +213,18 @@ public class MainDriving extends LinearOpMode {
             }
 
             if (gamepad2.b){
-                liftSystem.toGround();
+                liftSystem.angleInitPos();
+                liftSystem.flipInitPos();
+                runtime.reset();
+                sentGround=true;
             }
+            if(runtime.milliseconds()>=550 && sentGround)
+            {
+                liftSystem.toGround();
+                liftSystem.microInitPos();
+                sentGround=false;
+            }
+
             if(gamepad2.left_bumper)
             {
                 liftSystem.UnderGround();
@@ -274,7 +282,7 @@ public class MainDriving extends LinearOpMode {
             telemetry.addData("x:", positionSystem.getPosition().first);
             telemetry.addData("y:", positionSystem.getPosition().second);
             telemetry.addData("angle:", positionSystem.getAngle());
-            telemetry.addData("flip value", (resetFlip || lowFlip || midFlip || highFlip || farFlip));
+            telemetry.addData("flip value", (resetFlip || lowFlip || midFlip || highFlip));
 
             telemetry.update();
         }

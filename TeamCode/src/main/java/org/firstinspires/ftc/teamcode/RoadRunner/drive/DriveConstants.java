@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.RoadRunner.drive;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
-import org.firstinspires.ftc.teamcode.utilities.UsefulMethods;
 
 /*
  * Constants shared between multiple drive types.
@@ -33,7 +32,7 @@ public class DriveConstants {
      * If using the built-in motor velocity PID, update MOTOR_VELO_PID with the tuned coefficients
      * from DriveVelocityPIDTuner.
      */
-    public static final boolean RUN_USING_ENCODER = true;
+    public static final boolean RUN_USING_ENCODER = false;
     public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0,
             getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
 
@@ -45,9 +44,9 @@ public class DriveConstants {
      * angular distances although most angular parameters are wrapped in Math.toRadians() for
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
-    public static double WHEEL_RADIUS = UsefulMethods.cmToInch(4.8); // in
+    public static double WHEEL_RADIUS = 1.89; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 16.6; // in
+    public static double TRACK_WIDTH = 17.7; // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -55,9 +54,9 @@ public class DriveConstants {
      * motor encoders or have elected not to use them for velocity control, these values should be
      * empirically tuned.
      */
-    public static double kV = 0.01865;
-    public static double kA = 0.0027;
-    public static double kStatic = 0.0022;
+    public static double kV = 0.0168; // 1.0 / rpmToVelocity(MAX_RPM)
+    public static double kA = 0.00365;
+    public static double kStatic = 0;
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
@@ -66,7 +65,9 @@ public class DriveConstants {
      * small and gradually increase them later after everything is working. All distance units are
      * inches.
      */
-    public static double MAX_VEL = 48;
+    public static double MAX_VEL = 49.376;
+
+    //TODO: Tot ce avem mai jos
     public static double MAX_ACCEL = 48;
     public static double MAX_ANG_VEL = 1.5;
     public static double MAX_ANG_ACCEL = 1.5;
