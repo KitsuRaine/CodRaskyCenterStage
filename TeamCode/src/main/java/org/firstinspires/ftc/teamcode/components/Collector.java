@@ -21,7 +21,7 @@ public class Collector {
         servo2 = new Servo(hardwareMap, "servostackright");
         servo2.setPowerRange(500,2500);
 
-        closeStackServo();
+        stackServoInit();
     }
 
     public void runModeCollect() {
@@ -39,15 +39,18 @@ public class Collector {
         motor.setPower(-0.8);
     }
 
-    public void closeStackServo() {
+
+    // servo1 = stanga
+    // servo2 = dreapta
+    public void stackServoInit() {
         //Modifica servo1
-        servo1.setPosition(0.55);
-        servo2.setPosition(0);
+        servo1.setPosition(0.52);
+        servo2.setPosition(0.1);
     }
 
-    public void openStackServo() {
+    public void stackServoUse() {
         //Modifica servo1
         servo1.setPosition(0);
-        servo2.setPosition(0.45);
+        servo2.setPosition(0.576);
     }
 }

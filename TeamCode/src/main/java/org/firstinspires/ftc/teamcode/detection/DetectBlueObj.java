@@ -26,7 +26,7 @@ public class DetectBlueObj extends OpenCvPipeline {
             new Point(128 + xtol, 240-160 + ytol));
 
     static final Rect zona_mijloc = new Rect(
-            new Point(176 + xtol, 240-16 + ytol),
+            new Point(176 + xtol, 240-32 + ytol),
             new Point(288 + xtol, 240-112 + ytol));
 
     /**static final Rect zona_dreapta = new Rect(

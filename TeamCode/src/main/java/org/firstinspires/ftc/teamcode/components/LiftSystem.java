@@ -149,6 +149,7 @@ public class LiftSystem {
         return reachedTarget;
     }
     public void runUntilDone() {
+        run();
         while (isRunning) run();
     }
 

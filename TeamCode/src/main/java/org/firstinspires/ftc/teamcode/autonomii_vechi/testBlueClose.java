@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.autonomii_vechi;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 //Road Runner Imports - Lucian
@@ -20,6 +21,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
+@Disabled
 @Autonomous(name = "testBlueClose", group = "main")
 public class testBlueClose extends LinearOpMode {
 

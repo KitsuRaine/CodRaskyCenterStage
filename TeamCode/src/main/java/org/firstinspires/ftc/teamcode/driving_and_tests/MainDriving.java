@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.components.Collector;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.teamcode.components.LiftSystem;
@@ -16,7 +15,6 @@ import org.firstinspires.ftc.teamcode.utilities.Motor;
 import org.firstinspires.ftc.teamcode.utilities.PositionSystem;
 import org.firstinspires.ftc.teamcode.utilities.RoadRunner;
 import org.firstinspires.ftc.teamcode.utilities.Servo;
-import org.firstinspires.ftc.robotcontroller.external.samples.ConceptGamepadRumble;
 
 @TeleOp(name = "Test Driving", group = "Main")
 public class MainDriving extends LinearOpMode {
@@ -84,7 +82,7 @@ public class MainDriving extends LinearOpMode {
         liftSystem.microInitPos();
         liftSystem.flipInitPos();
         collector.runModeOff();
-        collector.closeStackServo();
+        collector.stackServoInit();
 
         zeroAngle = new Buton();
         up = new Buton();
@@ -144,9 +142,9 @@ public class MainDriving extends LinearOpMode {
                 usedStack++;
 
                 if (usedStack % 2 == 0)
-                    collector.closeStackServo();
+                    collector.stackServoInit();
                 else
-                    collector.openStackServo();
+                    collector.stackServoUse();
             }
             lastIterationStack = gamepad2.right_bumper;
 

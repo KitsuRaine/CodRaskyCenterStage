@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.autonomii_vechi;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.components.LiftSystem;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.utilities.PositionSystem;
 import org.firstinspires.ftc.teamcode.utilities.RoadRunner;
 import org.openftc.easyopencv.OpenCvWebcam;
 
+@Disabled
 @Autonomous(name = "zblue_right_colt_wait", group = "main")
 public class blue_right_colt_wait extends LinearOpMode {
 
