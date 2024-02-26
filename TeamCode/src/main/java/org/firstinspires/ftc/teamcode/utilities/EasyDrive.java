@@ -7,7 +7,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 /**
  * Implements some functions to easily use roadRunner, without copy-pasting stuff <br/>
  * TODO: Find out if <em>edgeangle</em> and <em>right</em> are useful for literally anything <br/>
- * TODO: implement the new roadrunner instead
+ * ! Moved to AcmeRobotic's RoadRunner -> this is no longer useful
  *
  * @author mikey
  */

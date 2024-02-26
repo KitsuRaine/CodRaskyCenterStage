@@ -74,7 +74,7 @@ public class blue_left_mijloc extends LinearOpMode {
 
         int tip_autonomie;
 
-        tip_autonomie = pipe_line.gen_tip_autonomie();
+        tip_autonomie = pipe_line.getTipAutonomie();
         telemetry.addData("Autonomie: ", tip_autonomie);
         telemetry.update();
 

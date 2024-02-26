@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.detection.DetectRedObj;
 import org.firstinspires.ftc.teamcode.utilities.camera;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name = "RedFarMiddle", group = "main")
+@Autonomous(group = "main", preselectTeleOp = "Main Driving")
 public class RedFarMiddle extends LinearOpMode {
     DetectRedObj pipeline = new DetectRedObj();
     OpenCvWebcam webcam;
@@ -28,327 +28,240 @@ public class RedFarMiddle extends LinearOpMode {
         liftSystem = new LiftSystem(hardwareMap);
         collector = new Collector(hardwareMap);
 
+        drive.setPoseEstimate(redFar);
+
+        //! =================================== CASE 0 =============================================
+        TrajectorySequence seqCaz0 = drive.trajectorySequenceBuilder(redFar)
+                //* Place the purple pixel
+                .splineToLinearHeading(new Pose2d(-43,-18, Math.toRadians(270)), Math.toRadians(270))
+                .forward(10)
+                .addDisplacementMarker(()->{
+                    collector.stackServoInit();
+                })
+                .back(5)
+                //* Collect one white
+                .lineToLinearHeading(new Pose2d(-52,-13.5, Math.toRadians(180)))
+                .addDisplacementMarker(()->{
+                    collector.runModeCollect();
+                })
+                .forward(7)
+                .addDisplacementMarker(()->{
+                    collector.stackServoUse();
+                    collector.runModeCollect();
+                })
+                .forward(0.1)
+                .waitSeconds(0.2)
+                .addDisplacementMarker(()->{
+                    collector.stackServoInit();
+                    collector.runModeCollect();
+                })
+                .back(0.1)
+                .waitSeconds(0.2)
+                .addDisplacementMarker(()->{
+                    collector.runModeThrow();
+                })
+                //* Go towards the Backdrop and raise lift
+                .lineToConstantHeading(new Vector2d(40,-12))
+                .addDisplacementMarker(() -> {
+                    collector.runModeOff();
+                    liftSystem.setTarget(250);
+                    liftSystem.runUntilDone();
+                })
+                .setTangent(Math.toRadians(-45))
+                .splineToConstantHeading(new Vector2d(53.5, -34), Math.toRadians(0))
+                .waitSeconds(0.1)
+                .addDisplacementMarker(() -> {
+                    liftSystem.flipActivePos(5);
+                    liftSystem.angleActivePos(6.5);
+                })
+                .back(0.1)
+                .waitSeconds(0.2)
+                .addDisplacementMarker(()->{
+                    liftSystem.microSecondPos();
+                })
+                //* Reset the lift and cage
+                .back(2)
+                .waitSeconds(0.1)
+                .addDisplacementMarker(()->{
+                    liftSystem.flipInitPos();
+                    liftSystem.angleInitPos();
+                })
+                .forward(2)
+                .waitSeconds(0.1)
+                .addDisplacementMarker(()->{
+                    liftSystem.toGround();
+                    liftSystem.run();
+                })
+                .back(2)
+                .waitSeconds(0.1)
+                //* Park
+                /*
+                .forward(10)
+                .strafeRight(12)
+                */
+                .build();
+
+        //! =================================== CASE 1 =============================================
+        TrajectorySequence seqCaz1 = drive.trajectorySequenceBuilder(redFar)
+                //* Place the purple pixel
+                .splineToLinearHeading(new Pose2d(-38,-12, Math.toRadians(270)), Math.toRadians(270))
+                .forward(7)
+                .addDisplacementMarker(()->{
+                    collector.stackServoInit();
+                })
+                .back(5)
+                //* Collect one white
+                .lineToLinearHeading(new Pose2d(-52,-13.5, Math.toRadians(180)))
+                .addDisplacementMarker(()->{
+                    collector.runModeCollect();
+                })
+                .forward(7)
+                .addDisplacementMarker(()->{
+                    collector.stackServoUse();
+                    collector.runModeCollect();
+                })
+                .forward(0.1)
+                .waitSeconds(0.2)
+                .addDisplacementMarker(()->{
+                    collector.stackServoInit();
+                    collector.runModeCollect();
+                })
+                .back(0.1)
+                .waitSeconds(0.2)
+                .addDisplacementMarker(()->{
+                    collector.runModeThrow();
+                })
+                //* Go towards the Backdrop and raise lift
+                .lineToConstantHeading(new Vector2d(40,-12))
+                .addDisplacementMarker(() -> {
+                    collector.runModeOff();
+                    liftSystem.setTarget(250);
+                    liftSystem.runUntilDone();
+                })
+                .setTangent(Math.toRadians(-45))
+                .splineToConstantHeading(new Vector2d(53.5, -40), Math.toRadians(0))
+                .waitSeconds(0.1)
+                .addDisplacementMarker(() -> {
+                    liftSystem.flipActivePos(5);
+                    liftSystem.angleActivePos(6.5);
+                })
+                .back(0.1)
+                .waitSeconds(0.2)
+                .addDisplacementMarker(()->{
+                    liftSystem.microSecondPos();
+                })
+                //* Reset the lift and cage
+                .back(2)
+                .waitSeconds(0.1)
+                .addDisplacementMarker(()->{
+                    liftSystem.flipInitPos();
+                    liftSystem.angleInitPos();
+                })
+                .forward(2)
+                .waitSeconds(0.1)
+                .addDisplacementMarker(()->{
+                    liftSystem.toGround();
+                    liftSystem.run();
+                })
+                .back(2)
+                .waitSeconds(0.1)
+                //* Park
+                /*
+                .forward(10)
+                .strafeRight(12)
+                */
+                .build();
+
+        //! =================================== CASE 2 =============================================
+        TrajectorySequence seqCaz2 = drive.trajectorySequenceBuilder(redFar)
+                //* Place the purple pixel
+                .splineToLinearHeading(new Pose2d(-30,-35, Math.toRadians(45)), Math.toRadians(0))
+                .forward(2)
+                .addDisplacementMarker(()->{
+                    collector.stackServoInit();
+                })
+                .back(7)
+                //* Collect one white
+                .lineToLinearHeading(new Pose2d(-52,-13.5, Math.toRadians(180)))
+                .addDisplacementMarker(()->{
+                    collector.runModeCollect();
+                })
+                .forward(7)
+                .addDisplacementMarker(()->{
+                    collector.stackServoUse();
+                    collector.runModeCollect();
+                })
+                .forward(0.1)
+                .waitSeconds(0.2)
+                .addDisplacementMarker(()->{
+                    collector.stackServoInit();
+                    collector.runModeCollect();
+                })
+                .back(0.1)
+                .waitSeconds(0.2)
+                .addDisplacementMarker(()->{
+                    collector.runModeThrow();
+                })
+                //* Go towards the Backdrop and raise lift
+                .lineToConstantHeading(new Vector2d(40,-12))
+                .addDisplacementMarker(() -> {
+                    collector.runModeOff();
+                    liftSystem.setTarget(250);
+                    liftSystem.runUntilDone();
+                })
+                .setTangent(Math.toRadians(-45))
+                .splineToConstantHeading(new Vector2d(53.5, -46), Math.toRadians(0))
+                .waitSeconds(0.1)
+                .addDisplacementMarker(() -> {
+                    liftSystem.flipActivePos(5);
+                    liftSystem.angleActivePos(6.5);
+                })
+                .back(0.1)
+                .waitSeconds(0.2)
+                .addDisplacementMarker(()->{
+                    liftSystem.microSecondPos();
+                })
+                //* Reset the lift and cage
+                .back(2)
+                .waitSeconds(0.1)
+                .addDisplacementMarker(()->{
+                    liftSystem.flipInitPos();
+                    liftSystem.angleInitPos();
+                })
+                .forward(2)
+                .waitSeconds(0.1)
+                .addDisplacementMarker(()->{
+                    liftSystem.toGround();
+                    liftSystem.run();
+                })
+                .back(2)
+                .waitSeconds(0.1)
+                //* Park
+                /*
+                .forward(10)
+                .strafeRight(12)
+                */
+                .build();
+
+        telemetry.addLine("Ready!");
+        telemetry.update();
+        while (!opModeIsActive() && !isStopRequested()) {
+            if (!pipeline.initialized) telemetry.addLine("!!! CAMERA NOT INITIALIZED !!!");
+            telemetry.addLine("Ready!");
+            telemetry.addData("tip autonomie", pipeline.getTipAutonomie());
+            telemetry.update();
+        }
+        waitForStart();
+        if (isStopRequested()) return;
+
         collector.stackServoUse();
         liftSystem.microInitPos();
         liftSystem.flipInitPos();
         liftSystem.angleInitPos();
 
-        drive.setPoseEstimate(redFar);
-
-        TrajectorySequence seqCaz0 = drive.trajectorySequenceBuilder(redFar)
-                //* pune pixel si ocoleste
-                .splineToLinearHeading(new Pose2d(-44,-18, Math.toRadians(-90)), Math.toRadians(90))
-                .addDisplacementMarker(()->{
-                    collector.stackServoInit();
-                })
-                .setTangent(Math.toRadians(45))
-                .splineToLinearHeading(new Pose2d(-30, -11, Math.toRadians(180)), Math.toRadians(0))
-                .forward(.5)
-                //* go collect
-                .addDisplacementMarker(()->{
-                    // collector
-                    collector.runModeCollect();
-                })
-                .forward(22)
-                .addDisplacementMarker(()->{
-                    collector.stackServoUse();
-                })
-                .forward(1)
-                .waitSeconds(.5)
-                //* run fuga fuga
-                .back(50)
-                .addDisplacementMarker(()->{
-                    collector.runModeOff();
-                    // lift
-                    liftSystem.setTarget(300);
-                    liftSystem.run();
-                    collector.stackServoInit();
-                    collector.runModeThrow();
-                })
-                .back(35)
-                .addDisplacementMarker(()->{
-                    // flip the flipper and angle the angler
-                    liftSystem.flipActivePos(4);
-                    liftSystem.angleActivePos(5);
-                })
-                .splineToConstantHeading(new Vector2d(54, -36), 0)
-                .back(0.5)
-                .addDisplacementMarker(()->{
-                    liftSystem.microSecondPos();
-                })
-                .forward(0.5)
-                .waitSeconds(.5)
-                .addDisplacementMarker(()->{
-                    liftSystem.microInitPos();
-                    liftSystem.flipInitPos();
-                    liftSystem.angleInitPos();
-                })
-                .forward(.5)
-                .waitSeconds(.5)
-                //* leave and get new pixels
-                .setTangent(Math.toRadians(180))
-                .addDisplacementMarker(()->{
-                    liftSystem.toGround();
-                    liftSystem.run();
-                })
-                .splineToLinearHeading(new Pose2d(30, -13, Math.toRadians(180)), Math.toRadians(180))
-                .addDisplacementMarker(()->{
-                    collector.runModeCollect();
-                })
-                .forward(80)
-//                .addDisplacementMarker(()->{
-//                    collector.runModeCollect();
-//                })
-                .forward(3)
-                .addDisplacementMarker(()->{
-                    collector.stackServoUse();
-                })
-                .waitSeconds(.5)
-                //* go back and place
-                .back(50)
-                .addDisplacementMarker(()->{
-                    collector.runModeOff();
-                    // lift
-                    liftSystem.setTarget(300);
-                    liftSystem.run();
-                    collector.runModeOff();
-                    collector.stackServoInit();
-                })
-                .back(35)
-                .addDisplacementMarker(()->{
-                    // flip the flipper and angle the angler
-                    liftSystem.flipActivePos(4);
-                    liftSystem.angleActivePos(5);
-                })
-                .splineToConstantHeading(new Vector2d(55, -38), 0)
-                .addDisplacementMarker(()->{
-                    liftSystem.microSecondPos();
-                })
-                .back(1)
-                .waitSeconds(.5)
-                .addDisplacementMarker(()->{
-                    liftSystem.microInitPos();
-                    liftSystem.flipInitPos();
-                    liftSystem.angleInitPos();
-                    sleep(500);
-                    liftSystem.toGround();
-                    liftSystem.run();
-                    while (liftSystem.isRunning) liftSystem.run();
-                })
-                .back(.5)
-                .build();
-
-        TrajectorySequence seqCaz1 = drive.trajectorySequenceBuilder(redFar)
-                //* pune pixel si ocoleste
-                .splineToLinearHeading(new Pose2d(-38, -17, Math.toRadians(-75)), Math.toRadians(90))
-                .addDisplacementMarker(()->{
-                    collector.stackServoInit();
-                })
-                .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-30, -11, Math.toRadians(180)), Math.toRadians(0))
-                //* go collect
-                .addDisplacementMarker(()->{
-                    // collector
-                    collector.runModeCollect();
-                })
-                .forward(22)
-                .addDisplacementMarker(()->{
-                    collector.stackServoUse();
-                })
-                .forward(1)
-                .waitSeconds(.5)
-                //* run fuga fuga
-                .back(50)
-                .addDisplacementMarker(()->{
-                    collector.runModeOff();
-                    // lift
-                    liftSystem.setTarget(300);
-                    liftSystem.run();
-                    collector.stackServoInit();
-                    collector.runModeThrow();
-                })
-                .back(35)
-                .addDisplacementMarker(()->{
-                    // flip the flipper and angle the angler
-                    liftSystem.flipActivePos(4);
-                    liftSystem.angleActivePos(5);
-                })
-                .splineToConstantHeading(new Vector2d(54, -36), 0)
-                .back(0.5)
-                .addDisplacementMarker(()->{
-                    liftSystem.microSecondPos();
-                })
-                .forward(0.5)
-                .waitSeconds(.5)
-                .addDisplacementMarker(()->{
-                    liftSystem.microInitPos();
-                    liftSystem.flipInitPos();
-                    liftSystem.angleInitPos();
-                })
-                .forward(.5)
-                .waitSeconds(.5)
-                //* leave and get new pixels
-                .setTangent(Math.toRadians(180))
-                .addDisplacementMarker(()->{
-                    liftSystem.toGround();
-                    liftSystem.run();
-                })
-                .splineToLinearHeading(new Pose2d(30, -13, Math.toRadians(180)), Math.toRadians(180))
-                .addDisplacementMarker(()->{
-                    collector.runModeCollect();
-                })
-                .forward(80)
-//                .addDisplacementMarker(()->{
-//                    collector.runModeCollect();
-//                })
-                .forward(3)
-                .addDisplacementMarker(()->{
-                    collector.stackServoUse();
-                })
-                .waitSeconds(.5)
-                //* go back and place
-                .back(50)
-                .addDisplacementMarker(()->{
-                    collector.runModeOff();
-                    // lift
-                    liftSystem.setTarget(300);
-                    liftSystem.run();
-                    collector.runModeOff();
-                    collector.stackServoInit();
-                })
-                .back(35)
-                .addDisplacementMarker(()->{
-                    // flip the flipper and angle the angler
-                    liftSystem.flipActivePos(4);
-                    liftSystem.angleActivePos(5);
-                })
-                .splineToConstantHeading(new Vector2d(55, -38), 0)
-                .addDisplacementMarker(()->{
-                    liftSystem.microSecondPos();
-                })
-                .back(1)
-                .waitSeconds(.5)
-                .addDisplacementMarker(()->{
-                    liftSystem.microInitPos();
-                    liftSystem.flipInitPos();
-                    liftSystem.angleInitPos();
-                    sleep(500);
-                    liftSystem.toGround();
-                    liftSystem.run();
-                    while (liftSystem.isRunning) liftSystem.run();
-                })
-                .back(.5)
-                .build();
-
-        TrajectorySequence seqCaz2 = drive.trajectorySequenceBuilder(redFar)
-                //* pune pixel
-                .splineToLinearHeading(new Pose2d(-32, -33, Math.toRadians(0)), Math.toRadians(0))
-                .addDisplacementMarker(()->{
-                    collector.stackServoInit();
-                })
-                .setTangent(Math.toRadians(210))
-                .splineToLinearHeading(new Pose2d(-30, -11, Math.toRadians(180)), Math.toRadians(0))
-                //* go collect
-                .addDisplacementMarker(()->{
-                    // collector
-                    collector.runModeCollect();
-                })
-                .forward(22)
-                .addDisplacementMarker(()->{
-                    collector.stackServoUse();
-                })
-                .forward(1)
-                .waitSeconds(.5)
-                //* run fuga fuga
-                .back(50)
-                .addDisplacementMarker(()->{
-                    collector.runModeOff();
-                    // lift
-                    liftSystem.setTarget(300);
-                    liftSystem.run();
-                    collector.stackServoInit();
-                    collector.runModeThrow();
-                })
-                .back(35)
-                .addDisplacementMarker(()->{
-                    // flip the flipper and angle the angler
-                    liftSystem.flipActivePos(4);
-                    liftSystem.angleActivePos(5);
-                })
-                .splineToConstantHeading(new Vector2d(54, -36), 0)
-                .back(0.5)
-                .addDisplacementMarker(()->{
-                    liftSystem.microSecondPos();
-                })
-                .forward(0.5)
-                .waitSeconds(.5)
-                .addDisplacementMarker(()->{
-                    liftSystem.microInitPos();
-                    liftSystem.flipInitPos();
-                    liftSystem.angleInitPos();
-                })
-                .forward(.5)
-                .waitSeconds(.5)
-                //* leave and get new pixels
-                .setTangent(Math.toRadians(180))
-                .addDisplacementMarker(()->{
-                    liftSystem.toGround();
-                    liftSystem.run();
-                })
-                .splineToLinearHeading(new Pose2d(30, -13, Math.toRadians(180)), Math.toRadians(180))
-                .addDisplacementMarker(()->{
-                    collector.runModeCollect();
-                })
-                .forward(80)
-//                .addDisplacementMarker(()->{
-//                    collector.runModeCollect();
-//                })
-                .forward(3)
-                .addDisplacementMarker(()->{
-                    collector.stackServoUse();
-                })
-                .waitSeconds(.5)
-                //* go back and place
-                .back(50)
-                .addDisplacementMarker(()->{
-                    collector.runModeOff();
-                    // lift
-                    liftSystem.setTarget(300);
-                    liftSystem.run();
-                    collector.runModeOff();
-                    collector.stackServoInit();
-                })
-                .back(35)
-                .addDisplacementMarker(()->{
-                    // flip the flipper and angle the angler
-                    liftSystem.flipActivePos(4);
-                    liftSystem.angleActivePos(5);
-                })
-                .splineToConstantHeading(new Vector2d(55, -38), 0)
-                .addDisplacementMarker(()->{
-                    liftSystem.microSecondPos();
-                })
-                .back(1)
-                .waitSeconds(.5)
-                .addDisplacementMarker(()->{
-                    liftSystem.microInitPos();
-                    liftSystem.flipInitPos();
-                    liftSystem.angleInitPos();
-                    sleep(500);
-                    liftSystem.toGround();
-                    liftSystem.run();
-                    while (liftSystem.isRunning) liftSystem.run();
-                })
-                .back(.5)
-                .build();
-
-        telemetry.addLine("Ready!");
-        telemetry.update();
-        waitForStart();
-        if (isStopRequested()) return;
-
-        int caz = 2;//pipeline.gen_tip_autonomie();
+        int caz = pipeline.getTipAutonomie();
         telemetry.addData("tip autonomie", caz);
+        telemetry.update();
 
         if (caz == 0) {
             drive.followTrajectorySequence(seqCaz0);

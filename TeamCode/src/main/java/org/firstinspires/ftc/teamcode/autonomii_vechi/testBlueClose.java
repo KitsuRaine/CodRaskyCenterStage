@@ -77,7 +77,7 @@ public class testBlueClose extends LinearOpMode {
         int tip_autonomie;
         waitForStart();
 
-        tip_autonomie = pipe_line_blue.gen_tip_autonomie();
+        tip_autonomie = pipe_line_blue.getTipAutonomie();
         telemetry.addData("Autonomie: ", tip_autonomie);
         telemetry.update();
 

@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.components.LiftSystem;
 /**
  * This class is a replacement for LinearOpMode, simplifying stuff
  * and removing the need to copy and paste parts of the code everywhere
+ * This was written before migrating to AcmeRobotic's RoadRunner
  * @author mikey
  */
 abstract public class BasicAutonomy extends LinearOpMode {

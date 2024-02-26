@@ -10,7 +10,8 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 public class DetectBlueObj extends OpenCvPipeline {
     Mat mat = new Mat();
-    private int tip_autonomie;
+    private int tipAutonomie;
+    public boolean initialized = false;
     /*
      * tipul de autonomie e urmatoru:
      * 0 - stanga
@@ -18,26 +19,22 @@ public class DetectBlueObj extends OpenCvPipeline {
      * 2 - dreapta
      */
 
-    // 16 = o unitate
-    private static int xtol=32;
-    private static int ytol=32;
-    static final Rect zona_stanga = new Rect(
-            new Point(32 + xtol, 240-64 + ytol),
-            new Point(128 + xtol, 240-160 + ytol));
+    private static final Rect zonaMijloc = new Rect(
+            new Point(11, 8),
+            new Point(215, 60)
+    );
 
-    static final Rect zona_mijloc = new Rect(
-            new Point(176 + xtol, 240-32 + ytol),
-            new Point(288 + xtol, 240-112 + ytol));
-
-    /**static final Rect zona_dreapta = new Rect(
-     new Point(190, 135),
-     new Point(280, 200));*/
+    private static final Rect zonaDreapta = new Rect(
+            new Point(255, 20),
+            new Point(320, 125)
+    );
 
 
     static double procentObiectPeZona = 0.1;
 
     @Override
     public Mat processFrame(Mat input) {
+        initialized = true;
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
         //35, 85, 94 - default
         //43, 62, 100 - brightness 100
@@ -48,42 +45,30 @@ public class DetectBlueObj extends OpenCvPipeline {
 
         Core.inRange(mat, lowHSV, highHSV, mat);
 
-        Mat stanga = mat.submat(zona_stanga);
-        Mat mijloc = mat.submat(zona_mijloc);
-        //Mat dreapta = mat.submat(zona_dreapta);
+        Mat mijloc = mat.submat(zonaMijloc);
+        Mat dreapta = mat.submat(zonaDreapta);
 
-        double val_stanga = Core.sumElems(stanga).val[0] / zona_stanga.area() / 255;
-        double val_mijloc = Core.sumElems(mijloc).val[0] / zona_mijloc.area() / 255;
-        //double val_dreapta = Core.sumElems(dreapta).val[0] / zona_dreapta.area() / 255;
-        stanga.release();
+        double valMijloc = Core.sumElems(mijloc).val[0] / zonaMijloc.area() / 255;
+        double valDreapta = Core.sumElems(dreapta).val[0] / zonaDreapta.area() / 255;
+
         mijloc.release();
-        //dreapta.release();
+        dreapta.release();
 
-        boolean elementLeft = val_stanga > procentObiectPeZona;
-        boolean elementMiddle = val_mijloc > procentObiectPeZona;
-        //boolean elementRight = val_dreapta > procentObiectPeZona;
-
-        if (elementLeft) {
-            tip_autonomie = 1;
-        } else if (elementMiddle) {
-            tip_autonomie = 2;
-            /**} else if (elementRight) {
-             tip_autonomie = 2;*/
-        } else
-            tip_autonomie = 0;
+        tipAutonomie = 0; //* presupunem ca e stanga
+        if (valMijloc > procentObiectPeZona) tipAutonomie = 1;
+        else if (valDreapta > procentObiectPeZona+.2) tipAutonomie = 2;
 
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_GRAY2RGB);
 
-        Scalar nu_exista = new Scalar(255, 0, 0);
+        Scalar nuExista = new Scalar(255, 0, 0);
         Scalar exista = new Scalar(0, 255, 0);
 
-        Imgproc.rectangle(mat, zona_stanga, tip_autonomie == 1 ? exista : nu_exista);
-        Imgproc.rectangle(mat, zona_mijloc, tip_autonomie == 2 ? exista : nu_exista);
-        //Imgproc.rectangle(mat, zona_dreapta, tip_autonomie == 3 ? exista : nu_exista);
+        Imgproc.rectangle(mat, zonaMijloc, tipAutonomie == 1 ? exista : nuExista);
+        Imgproc.rectangle(mat, zonaDreapta, tipAutonomie == 2 ? exista : nuExista);
         return mat;
     }
 
-    public int gen_tip_autonomie() {
-        return tip_autonomie;
+    public int getTipAutonomie() {
+        return tipAutonomie;
     }
 }

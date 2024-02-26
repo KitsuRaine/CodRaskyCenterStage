@@ -77,6 +77,7 @@ public class SampleMecanumDrive extends MecanumDrive {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
+        // using the expansion hub imu
         imu = hardwareMap.get(BNO055IMU.class, "imuExp");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
@@ -284,7 +285,10 @@ public class SampleMecanumDrive extends MecanumDrive {
         return imu.getAngularOrientation().firstAngle;
     }
 
-    @Override  //TODO: find out wtf this  is
+    //* This is the Z axis that's mentioned in the diagram higher up
+    //* Our expansion hub is position in such a way that the Z axis
+    //* has to be remapped to the Y axis, therefore our Y axis is up & down
+    @Override
     public Double getExternalHeadingVelocity() {
         return (double) imu.getAngularVelocity().yRotationRate;
     }

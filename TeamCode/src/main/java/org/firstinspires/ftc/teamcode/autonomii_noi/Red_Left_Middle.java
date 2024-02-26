@@ -74,7 +74,7 @@ public class Red_Left_Middle extends LinearOpMode {
         int tip_autonomie;
         waitForStart();
 
-        tip_autonomie = pipe_line_red.gen_tip_autonomie();
+        tip_autonomie = pipe_line_red.getTipAutonomie();
         telemetry.addData("Autonomie: ", tip_autonomie);
         telemetry.update();
 

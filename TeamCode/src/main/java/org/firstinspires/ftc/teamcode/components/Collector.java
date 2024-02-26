@@ -8,18 +8,18 @@ import org.firstinspires.ftc.teamcode.utilities.Servo;
 public class Collector {
 
     private Motor motor;
-    private Servo servo1;
-    private Servo servo2;
+    private Servo stackServoStanga;
+    private Servo stackServoDreapta;
     public Collector(HardwareMap hardwareMap) {
 
         motor = new Motor(hardwareMap, "collector", true, true, false);
         motor.setPower(0);
 
-        servo1 = new Servo(hardwareMap, "servostackleft");
-        servo1.setPowerRange(500,2500);
+        stackServoStanga = new Servo(hardwareMap, "servostackleft");
+        stackServoStanga.setPowerRange(500,2500);
 
-        servo2 = new Servo(hardwareMap, "servostackright");
-        servo2.setPowerRange(500,2500);
+        stackServoDreapta = new Servo(hardwareMap, "servostackright");
+        stackServoDreapta.setPowerRange(500,2500);
 
         stackServoInit();
     }
@@ -39,18 +39,15 @@ public class Collector {
         motor.setPower(-0.8);
     }
 
-
-    // servo1 = stanga
-    // servo2 = dreapta
+    //* claws init position
     public void stackServoInit() {
-        //Modifica servo1
-        servo1.setPosition(0.52);
-        servo2.setPosition(0.1);
+        stackServoStanga.setPosition(0.540);
+        stackServoDreapta.setPosition(0.1);
     }
 
+    //* claws grab pixel position
     public void stackServoUse() {
-        //Modifica servo1
-        servo1.setPosition(0);
-        servo2.setPosition(0.576);
+        stackServoStanga.setPosition(0.065);
+        stackServoDreapta.setPosition(0.55);
     }
 }

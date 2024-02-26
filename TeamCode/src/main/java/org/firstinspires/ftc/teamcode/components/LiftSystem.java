@@ -10,9 +10,9 @@ public class LiftSystem {
     private Motor motor1, motor2;
     private int target, tolerance, reachedTarget;
     private final int groundLevel = 0;
-    private final int lowLevel = 300;
-    private final int midLevel = 425;
-    private final int highLevel = 650;
+    public final int lowLevel = 275;
+    public final int midLevel = 425;
+    public final int highLevel = 650;
     private final double holdK = 0.15;
     private int resetTolerance = 0;
     boolean manualMode;
@@ -20,6 +20,22 @@ public class LiftSystem {
     private Servo angleServo;
     private Servo microservo;
     public boolean isRunning = false;
+
+
+    //* Values for the flip servo
+    public static final class Flip {
+        public static final double low = 5;
+        public static final double mid = 2.5;
+        public static final double high = 0;
+    }
+
+    //* Values for the angle servo
+    public static final class Angle {
+        public static final double low = 6.5;
+        public static final double mid = 3.25;
+        public static final double high = 0;
+    }
+
 
     public LiftSystem(HardwareMap hardwareMap) {
 
@@ -72,7 +88,7 @@ public class LiftSystem {
     }
 
     public void flipInitPos() {
-        flip.setPosition(0.26);
+        flip.setPosition(0.262);
     }
 
     public void flipActivePos(double height) {
@@ -95,11 +111,6 @@ public class LiftSystem {
 
         return motor1.getPower();
     }
-    public void goLowAsFUccc()
-    {
-        resetTolerance-=10;
-    }
-
 
     //* In some cases, the robot may initialize while the lift is still
     //* higher up, whether it be it may have been stuck or something else happened
@@ -149,13 +160,11 @@ public class LiftSystem {
         return reachedTarget;
     }
     public void runUntilDone() {
-        run();
-        while (isRunning) run();
+        run(0);
+        while (isRunning) run(0);
     }
 
-    public void run() {
-        run(0);
-    }
+    public void run() {run(0);}
     public void run(double power) {
 
         if (target == 0 && !manualMode) {

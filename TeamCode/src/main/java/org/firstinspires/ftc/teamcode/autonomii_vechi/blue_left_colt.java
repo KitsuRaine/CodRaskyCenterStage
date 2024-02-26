@@ -66,7 +66,7 @@ public class blue_left_colt extends LinearOpMode {
 
         int tipAutonomie;
 
-        tipAutonomie = pipe_line.gen_tip_autonomie();
+        tipAutonomie = pipe_line.getTipAutonomie();
 
         telemetry.addData("Ready!", "");
 
